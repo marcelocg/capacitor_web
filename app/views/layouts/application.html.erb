@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cloud Capacitor</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= nav_bar :brand => "CloudCapacitor", :brand_link => root_path, :responsive => true, :fixed => :top  do %>
+  <% menu_group do %>
+    <%= menu_item "Home", root_path %>
+    <%= menu_item "About Us", about_path %>
+  <% end %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

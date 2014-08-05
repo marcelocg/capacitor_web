@@ -1,0 +1,26 @@
+capacitor:
+  #The reference value that indicates the target execution result
+  sla: 20000
+
+  #Deviations below this (+/-) factor are considered low
+  #The value below represents 5%
+  low_deviation: 0.05
+
+  #Deviations above low_deviation but below this (+/-) factor are considered medium
+  #All deviations above this (+/-) factor are considered high
+  medium_deviation: 0.10
+
+  #The normal operation level for the cpu % usage
+  cpu_limit: 75
+
+  #The normal operation level for the memory % usage
+  mem_limit: 75
+
+deployment_space:
+  #The maximum price for a whole Configuration.
+  #This refers to the individual VM_Type price multiplied by the number of instances that
+  #make up the Configuration
+  max_price: 2.5
+
+  #The maximum number of instances in a Configuration. This is for horizontal scaling.
+  max_num_instances: 4

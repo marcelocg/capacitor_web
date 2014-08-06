@@ -2,6 +2,8 @@ class MainController < ApplicationController
   layout 'capacitor'
   def index
     @candidates ||= []
+    @cost = 0.0
+    @executions = 0
   end
   def about
   end

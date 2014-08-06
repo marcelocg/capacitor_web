@@ -10,8 +10,6 @@ class MainController < ApplicationController
     workload_attitude = params[:workload_attitude].to_sym
     configuration_attitude = params[:configuration_attitude].to_sym
 
-    puts "Attitudes: WKL=#{workload_attitude} CFG=#{configuration_attitude}"
-    
     capacitor = CloudCapacitor::Capacitor.new
     capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
     capacitor.strategy = CloudCapacitor::Strategies::MCG_Strategy.new
@@ -20,7 +18,11 @@ class MainController < ApplicationController
                                 config:   configuration_attitude
 
     capacitor.run_for(*workloadlist)
+    
     @candidates = capacitor.candidates
+    @cost = capacitor.run_cost
+    @executions = capacitor.executions
+
     render 'index'
   end
 end

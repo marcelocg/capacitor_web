@@ -27,6 +27,7 @@ gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
 
 # Needed to run the app on Heroku
 gem 'rails_12factor', group: :production
+gem 'unicorn'
 
 # Heroku suggests we should specify the Ruby version
 ruby '2.1.2'

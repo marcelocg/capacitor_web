@@ -3,6 +3,11 @@ default: &default
   encoding: unicode
   pool: 5
   timeout: 5000
+  username: capacitor
+  password: capacitor
+  database: capacitor_development
+  host: localhost
+  port: 5432
 
 development:
   <<: *default

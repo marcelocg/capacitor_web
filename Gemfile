@@ -4,7 +4,11 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+#gem 'sqlite3'
+
+# Heroku requires PostgreSQL as the app database
+gem 'pg'
+
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
@@ -21,3 +25,8 @@ gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-boot
 # The cloud_capacitor makes all the magic happen
 gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
 
+# Needed to run the app on Heroku
+gem 'rails_12factor', group: :production
+
+# Heroku suggests we should specify the Ruby version
+ruby "2.1.1"

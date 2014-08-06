@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/marcelocg/cloud_capacitor.git
-  revision: d177849c6ef3afccd2de6080bee72096e5a6f9f5
+  revision: e21fc0682b906646a1783372720d476be58eb25c
   specs:
     cloud_capacitor (0.0.1)
       plexus

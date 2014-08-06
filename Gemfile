@@ -29,4 +29,4 @@ gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
 gem 'rails_12factor', group: :production
 
 # Heroku suggests we should specify the Ruby version
-ruby "2.1.1"
+ruby '2.1.2'

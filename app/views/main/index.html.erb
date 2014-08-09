@@ -1,64 +1,74 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
       <%= form_tag "eval_performance", method: "post", class: "form-horizontal" do %>
         <fieldset>
           <legend>Capacitor Parameters</legend>
           <div class="well">
-            <div class="form-group">
-              <div class="col-lg-12">
-                <%= label_tag(:workloadlist, "Workloads:", class: "col-lg-2 control-label") %>
+            <div class="col-lg-3">
+              <h4 class="list-group-item-heading">Response Time</h4>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <%= label_tag(:sla, "SLA:", class: "col-lg-2 control-label") %>
+                  <%= text_field_tag(:sla, nil, class: "form-control", placeholder: "1000 (ms)") %>
+                </div>
+              </div>
+              <span class="help-block">The target value for the metric being assessed.</span>
+            </div>
+            <div class="col-lg-4">
+              <h4 class="list-group-item-heading">Performance</h4>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <%= label_tag(:cpu_limit, "Máx. CPU: (%)") %>
+                  <%= text_field_tag(:cpu_limit, nil, class: "form-control", placeholder: "75 (%)") %>
+                </div>
+                <div class="col-lg-6">
+                  <%= label_tag(:mem_limit, "Max. Memory: (%)") %>
+                  <%= text_field_tag(:mem_limit, nil, class: "form-control", placeholder: "80 (%)") %>
+                </div>
+              </div>
+              <span class="help-block">Acceptable usage for CPU and Memory.</span>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <%= label_tag(:low_deviation, "Low Deviation: (%)") %>
+                  <%= text_field_tag(:low_deviation, nil, class: "form-control", placeholder: "75 (%)") %>
+                </div>
+                <div class="col-lg-6">
+                  <%= label_tag(:medium_deviation, "Med. Deviation: (%)") %>
+                  <%= text_field_tag(:medium_deviation, nil, class: "form-control", placeholder: "80 (%)") %>
+                </div>
+              </div>
+              <span class="help-block">Response times distance to SLA must fall below (+/-) Low Deviation. The further from it, the bigger the steps the Capacitor moves. Medium Deviation is an intermediate value. Above it, you can expect large hops in the search for Configurations.</span>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <h4 class="list-group-item-heading">Workloads</h4>
                 <%= select_tag(:workloadlist, options_for_select([ 100,200,300,400,500,600,700,800,900,1000 ], 100), class: "form-control", multiple: true, size:10) %>
                 <span class="help-block">Select the workloads you wish to apply over your application. Hold the 'Ctrl' key while you click to select multiple workload values.</span>
               </div>
             </div>
-            <div class="form-group">
-              <div class="col-lg-6">
-                <%= label_tag(:workload_attitude, "Workload:", class: "col-lg-2 control-label") %>
-                <%= select_tag(:workload_attitude, options_for_select([ "optimistic", "conservative", "pessimistic" ]), class: "form-control") %>
-              </div>
-              <div class="col-lg-6">
-                <%= label_tag(:configuration_attitude, "Configuration:", class: "col-lg-2 control-label") %>
-                <%= select_tag(:configuration_attitude, options_for_select([ "optimistic", "conservative", "pessimistic" ]), class: "form-control") %>
+            <div class="col-lg-3">
+              <h4 class="list-group-item-heading">Attitude</h4>
+              <div class="form-group">
+                <div class="col-lg-6">
+                  <%= label_tag(:workload_attitude, "Workload:", class: "col-lg-2 control-label") %>
+                  <%= select_tag(:workload_attitude, options_for_select([ "optimistic", "conservative", "pessimistic" ]), class: "form-control") %>
+                </div>
+                <div class="col-lg-6">
+                  <%= label_tag(:configuration_attitude, "Configuration:", class: "col-lg-2 control-label") %>
+                  <%= select_tag(:configuration_attitude, options_for_select([ "optimistic", "conservative", "pessimistic" ]), class: "form-control") %>
+                </div>
               </div>
               <span class="help-block">Select here the attitude taken when navigating through the workloads and the deployment space.</span>
             </div>
             <div class="form-group">
-              <div class="col-lg-10 col-lg-offset-8">
-                <%= submit_tag("Execute", class: "btn btn-primary") %>                
+              <div class="col-lg-12 col-lg-offset-11">
+                <%= submit_tag("Execute", class: "btn btn-primary") %>
               </div>
             </div>
           </div>
         </fieldset>
       <% end %>
-    </div>
-    <div class="col-md-8">
-      <legend>Results</legend>
-      <div class="well">
-        <div class="list-group">
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">Stats</h4>
-            <p class="list-group-item-text">Number of real executions: <%= @executions %></p>
-            <p class="list-group-item-text">Execution total cost: <%= @cost.round(3) %></p>
-          </div>
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">Candidate configurations</h4>
-            <p class="list-group-item-text">Based on response times and cost per user, the best configurations capable of handling the specified workload are shown below ordered by price per hour:</p>
-            <div class="list-group">
-              <% if @candidates.size > 0 %>
-                <% @candidates.keys.sort.each do |wkl| %>
-                  <div class="list-group-item">
-                    Workload <%= wkl %>:
-                    <p>
-                      <%= @candidates[wkl].sort {|x,y| x.price <=> y.price }.map {|c| c.fullname}.join(", ") %>
-                    </p>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

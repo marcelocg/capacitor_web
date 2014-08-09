@@ -25,6 +25,6 @@ class MainController < ApplicationController
     @cost = capacitor.run_cost
     @executions = capacitor.executions
 
-    render 'index'
+    render 'results'
   end
 end

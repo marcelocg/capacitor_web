@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/marcelocg/cloud_capacitor.git
-  revision: e21fc0682b906646a1783372720d476be58eb25c
+  revision: 6fb14a17f9a98348307cd8ea3e1debba5cb18367
   specs:
     cloud_capacitor (0.0.1)
       plexus
@@ -131,7 +131,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (1.2.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.5.3)
       execjs (>= 0.3.0)

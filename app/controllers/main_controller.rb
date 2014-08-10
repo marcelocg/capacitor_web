@@ -19,8 +19,6 @@ class MainController < ApplicationController
     @workload_attitude = params[:workload_attitude].to_sym
     @configuration_attitude = params[:configuration_attitude].to_sym
     
-    puts "WORKLOAD ATTITUDE: #{@workload_attitude}"
-
     CloudCapacitor::Settings.capacitor["sla"]              = params[:sla].to_i              if !params[:sla].empty?
     CloudCapacitor::Settings.capacitor["cpu_limit"]        = params[:cpu_limit].to_f        if !params[:cpu_limit].empty?
     CloudCapacitor::Settings.capacitor["mem_limit"]        = params[:mem_limit].to_f        if !params[:mem_limit].empty?
@@ -32,13 +30,6 @@ class MainController < ApplicationController
     @mem_limit        = CloudCapacitor::Settings.capacitor.mem_limit
     @low_deviation    = CloudCapacitor::Settings.capacitor.low_deviation
     @medium_deviation = CloudCapacitor::Settings.capacitor.medium_deviation
-
-    puts "Vars @sla              #{@sla             } Settings sla             : #{CloudCapacitor::Settings.capacitor.sla}             "
-    puts "Vars @cpu_limit        #{@cpu_limit       } Settings cpu_limit       : #{CloudCapacitor::Settings.capacitor.cpu_limit}       "
-    puts "Vars @mem_limit        #{@mem_limit       } Settings mem_limit       : #{CloudCapacitor::Settings.capacitor.mem_limit}       "
-    puts "Vars @low_deviation    #{@low_deviation   } Settings low_deviation   : #{CloudCapacitor::Settings.capacitor.low_deviation}   "
-    puts "Vars @medium_deviation #{@medium_deviation} Settings medium_deviation: #{CloudCapacitor::Settings.capacitor.medium_deviation}"
-
 
     capacitor = CloudCapacitor::Capacitor.new
     capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
@@ -52,6 +43,7 @@ class MainController < ApplicationController
     @candidates = capacitor.candidates
     @cost = capacitor.run_cost
     @executions = capacitor.executions
+    @trace = capacitor.execution_trace
 
     render 'results'
   end

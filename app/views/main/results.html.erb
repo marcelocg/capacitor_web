@@ -1,32 +1,87 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <legend>Results</legend>
-      <div class="well">
-        <div class="list-group">
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">Stats</h4>
-            <p class="list-group-item-text">Number of real executions: <%= @executions %></p>
-            <p class="list-group-item-text">Execution total cost: <%= @cost.round(3) %></p>
-          </div>
-          <div class="list-group-item">
-            <h4 class="list-group-item-heading">Candidate configurations</h4>
-            <p class="list-group-item-text">Based on response times and cost per user, the best configurations capable of handling the specified workload are shown below ordered by price per hour:</p>
-            <div class="list-group">
-              <% if @candidates.size > 0 %>
-                <% @candidates.keys.sort.each do |wkl| %>
-                  <div class="list-group-item">
-                    Workload <%= wkl %>:
-                    <p>
-                      <%= @candidates[wkl].sort {|x,y| x.price <=> y.price }.map {|c| c.fullname}.join(", ") %>
-                    </p>
-                  </div>
+      <ul id="resultsTab" class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#results" role="tab" data-toggle="tab">Results</a></li>
+        <li><a href="#stats" role="tab" data-toggle="tab">Statistics</a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="results">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h3 class="list-group-item-heading">Candidate configurations</h3>
+              <p class="list-group-item-text">Based on response times and cost per user, the best configurations capable of handling the specified workload are shown below ordered by price per hour:</p>
+              <div class="list-group">
+                <% if @candidates.size > 0 %>
+                  <% @candidates.keys.sort.each do |wkl| %>
+                    <div class="list-group-item">
+                      Workload <%= wkl %>:
+                      <p>
+                        <%= @candidates[wkl].sort {|x,y| x.price <=> y.price }.map {|c| c.fullname}.join(", ") %>
+                      </p>
+                    </div>
+                  <% end %>
                 <% end %>
-              <% end %>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="tab-pane fade in" id="stats">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">
+                <div class="row">
+                  <div class="col-md-4">
+                    <p class="list-group-item-text">Number of real executions: <%= @executions %></p>
+                  </div>
+                  <div class="col-md-4">
+                    <p class="list-group-item-text">Execution total cost: <%= @cost.round(3) %></p>
+                  </div>
+                </div>
+              </h4>
+            </div>
+            <div class="list-group-item">
+              <h3 class="list-group-item-heading">Execution Trace</h3>
+              <table class="table table-condensed table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th colspan="<%= @workloadlist.size - 1 %>">Workloads</th>
+                  </tr>
+                  <tr>
+                    <th>Exec</th>
+                    <% @workloadlist.each do |wkl| %>
+                      <th><%= wkl %></th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody class="table-hover">
+                  <% @trace.keys.each do |i| %>
+                    <tr>
+                      <td><%= i %></td>
+                      <% @workloadlist.each do |wkl| %>
+                        <% if @trace[i][:workload] == wkl%>
+                          <td class=<%= @trace[i][:met_sla] ? "success" : "danger" %>>
+                            <%= @trace[i][:config].fullname %>
+                          </td>
+                        <% else %>
+                          <td></td>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>          
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+  $(function () {
+    $('#resultsTab a:first').tab('show')
+  })
+</script>

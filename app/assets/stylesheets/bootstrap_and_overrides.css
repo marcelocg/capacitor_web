@@ -8,3 +8,21 @@
 .navbar-brand {
   height: 60px;
 }
+.executed.met_sla {
+  background-color: green;
+  color: yellow;
+  font-weight: bold;
+}
+.executed.not_met_sla {
+  background-color: red;
+  color: yellow;
+  font-weight: bold;  
+}
+.predicted.met_sla {
+  background-color: limegreen;
+  color: white;
+}
+.predicted.not_met_sla {
+  background-color: lightsalmon;
+  color: white;
+}

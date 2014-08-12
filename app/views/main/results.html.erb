@@ -102,8 +102,8 @@
                         <% if @full_trace[cfg.fullname][wkl] == {} %>
                           <td></td>
                         <% else %>
-                          <td class=<%= @full_trace[cfg.fullname][wkl][:met_sla] ? "success" : "danger" %>>
-                            <%= @full_trace[cfg.fullname][wkl][:execution] if @full_trace[cfg.fullname][wkl][:executed]%>
+                          <td class="<%= execution_class(@full_trace[cfg.fullname][wkl]) %>">
+                            <%= @full_trace[cfg.fullname][wkl][:execution] %>
                           </td>
                         <% end %>
                       <% end %>

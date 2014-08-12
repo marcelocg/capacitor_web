@@ -4,6 +4,7 @@
       <ul id="resultsTab" class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#results" role="tab" data-toggle="tab">Results</a></li>
         <li><a href="#stats" role="tab" data-toggle="tab">Statistics</a></li>
+        <li><a href="#trace" role="tab" data-toggle="tab">Full Trace</a></li>
       </ul>
       <!-- Tab panes -->
       <div class="tab-content">
@@ -67,6 +68,43 @@
                           </td>
                         <% else %>
                           <td></td>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>          
+          </div>
+        </div>
+        <div class="tab-pane fade in" id="trace">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h3 class="list-group-item-heading">Full Execution Trace</h3>
+              <table class="table table-condensed table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th colspan="<%= @workloadlist.size - 1 %>">Workloads</th>
+                  </tr>
+                  <tr>
+                    <th>Configurations</th>
+                    <% @workloadlist.each do |wkl| %>
+                      <th><%= wkl %></th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody class="table-hover">
+                  <% @configs.each do |cfg| %>
+                    <tr>
+                      <td><%= "#{cfg.fullname} (#{cfg.price})" %></td>
+                      <% @workloadlist.each do |wkl| %>
+                        <% if @full_trace[cfg.fullname][wkl] == {} %>
+                          <td></td>
+                        <% else %>
+                          <td class=<%= @full_trace[cfg.fullname][wkl][:met_sla] ? "success" : "danger" %>>
+                            <%= @full_trace[cfg.fullname][wkl][:execution] if @full_trace[cfg.fullname][wkl][:executed]%>
+                          </td>
                         <% end %>
                       <% end %>
                     </tr>

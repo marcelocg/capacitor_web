@@ -44,6 +44,9 @@ class MainController < ApplicationController
     @cost = capacitor.run_cost
     @executions = capacitor.executions
     @trace = capacitor.execution_trace
+    @full_trace = capacitor.results_trace
+
+    @configs = capacitor.deployment_space.configs_by_price
 
     render 'results'
   end

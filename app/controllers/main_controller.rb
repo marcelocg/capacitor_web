@@ -47,11 +47,36 @@ class MainController < ApplicationController
     @full_trace = capacitor.results_trace
 
     @configs = capacitor.deployment_space.configs_by_price
+    @reference = ReferenceResult.load
+    
+    evaluate_results_precision
 
     render 'results'
   end
 
   def about
   end
+
+  private
+    def find_reference(workload, config)
+      i = @reference.index { |r| r[0] == workload && r[1] == config}
+      @reference[i][2] # returns the real execution response time
+    end
+
+    def evaluate_results_precision
+      @full_trace.each_pair do |cfg, wkl|
+        wkl.each_pair do |w, exec|
+          if exec != {}
+            reference_value = find_reference(w, cfg)
+            if ( (reference_value <= @sla && exec[:met_sla]) ||
+                 (reference_value >  @sla && !exec[:met_sla]) )
+              exec.update({correctness: "ok"})
+            else
+              exec.update({correctness: "nok"})
+            end
+          end
+        end
+      end
+    end
 
 end

@@ -24,3 +24,12 @@ deployment_space:
 
   #The maximum number of instances in a Configuration. This is for horizontal scaling.
   max_num_instances: 4
+
+  #How to compare 2 configurations? In strict comparison mode, we only 
+  #compare configurations of the same size OR the same VM_Type. Comparison
+  #is made by CPU and Memory together.
+  #When NOT in strict comparison mode, an attribute must be chosen from the
+  #ones available in DeploymentSpace::TRAVERSAL_MODES constant and then passed
+  #as parameter to the deployment space graph navigation methods
+  use_strict_comparison_mode: 1
+  

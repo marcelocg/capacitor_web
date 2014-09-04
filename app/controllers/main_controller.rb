@@ -46,7 +46,8 @@ class MainController < ApplicationController
     @trace = capacitor.execution_trace
     @full_trace = capacitor.results_trace
 
-    @configs = capacitor.deployment_space.configs_by_price
+    @configs = capacitor.deployment_space.configs_by_price.clone
+    @configs.sort_by! { |c| [c.category, c.price] }
     @reference = ReferenceResult.load
     
     evaluate_results_precision

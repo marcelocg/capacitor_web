@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.5'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
@@ -23,8 +23,7 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'bootstrap3'
 
 # The cloud_capacitor makes all the magic happen
-#gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
-gem 'cloud_capacitor', path: '../cloud_capacitor'
+gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
 
 # Needed to run the app on Heroku
 gem 'rails_12factor', group: :production

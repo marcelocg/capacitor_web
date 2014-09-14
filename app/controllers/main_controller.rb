@@ -38,9 +38,8 @@ class MainController < ApplicationController
     capacitor.strategy.attitude workload: @workload_attitude, 
                                 config:   @configuration_attitude
 
-    capacitor.run_for(*@workloadlist)
+    @candidates = capacitor.run_for(*@workloadlist)
     
-    @candidates = capacitor.candidates
     @cost = capacitor.run_cost
     @executions = capacitor.executions
     @trace = capacitor.execution_trace

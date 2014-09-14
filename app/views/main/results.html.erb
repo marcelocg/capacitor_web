@@ -81,6 +81,15 @@
           <div class="list-group">
             <div class="list-group-item">
               <h3 class="list-group-item-heading">Full Execution Trace</h3>
+              <p class="list-group-item-text">
+                <table class="table table-condensed">
+                  <tr>
+                    <td>Global Precision: <%= @global_precision %></td>
+                    <td>Global Recall: <%= @global_recall %></td>
+                    <td>Global F-Measure: <%= @global_f_measure %></td>
+                  </tr>
+                </table>
+              </p>
               <table class="table table-condensed table-bordered">
                 <thead>
                   <tr>

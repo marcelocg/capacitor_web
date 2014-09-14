@@ -51,6 +51,10 @@ class MainController < ApplicationController
     
     evaluate_results_precision
 
+    @global_precision = calculate_global_precision
+    @global_recall = calculate_global_recall
+    @global_f_measure = calculate_global_f_measure
+
     render 'results'
   end
 
@@ -58,25 +62,57 @@ class MainController < ApplicationController
   end
 
   private
+
+    def calculate_global_precision
+      (@confusion_matrix[:tp] / (@confusion_matrix[:tp] + @confusion_matrix[:fp])).round(3)
+    end
+
+    def calculate_global_recall
+      (@confusion_matrix[:tp] / (@confusion_matrix[:tp] + @confusion_matrix[:fn])).round(3)
+    end
+
+    def calculate_global_f_measure
+      (2 * ( (@global_precision * @global_recall) / (@global_precision + @global_recall) )).round(3)
+    end
+
     def find_reference(workload, config)
       i = @reference.index { |r| r[0] == workload && r[1] == config}
       @reference[i][2] # returns the real execution response time
     end
 
     def evaluate_results_precision
+      @wkl_confusion_matrix = {}
+      @confusion_matrix = {tp: 0.0, fp: 0.0, tn: 0.0, fn: 0.0}
+
+      @workloadlist.each do |wkl|
+        @wkl_confusion_matrix[wkl] = {tp: 0.0, fp: 0.0, tn: 0.0, fn: 0.0}
+      end
+
       @full_trace.each_pair do |cfg, wkl|
         wkl.each_pair do |w, exec|
           if exec != {}
             reference_value = find_reference(w, cfg)
-            if ( (reference_value <= @sla && exec[:met_sla]) ||
-                 (reference_value >  @sla && !exec[:met_sla]) )
+            if exec[:met_sla] && reference_value <= @sla
               exec.update({correctness: "ok"})
-            else
+              @confusion_matrix[:tp] += 1
+              @wkl_confusion_matrix[w][:tp] += 1
+            elsif !exec[:met_sla] && reference_value > @sla
+              exec.update({correctness: "ok"})
+              @confusion_matrix[:tn] += 1
+              @wkl_confusion_matrix[w][:tn] += 1
+            elsif !exec[:met_sla] && reference_value <= @sla
               exec.update({correctness: "nok"})
+              @confusion_matrix[:fn] += 1
+              @wkl_confusion_matrix[w][:fn] += 1
+            elsif exec[:met_sla] && reference_value > @sla
+              exec.update({correctness: "nok"})
+              @confusion_matrix[:fp] += 1
+              @wkl_confusion_matrix[w][:fp] += 1
             end
           end
         end
       end
+      puts "Confusion Matrix = #{@confusion_matrix}"
     end
 
 end

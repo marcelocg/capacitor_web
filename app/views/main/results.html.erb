@@ -104,7 +104,7 @@
                         <% else %>
                           <td class="<%= execution_class(@full_trace[cfg.fullname][wkl]) %>">
                             <%= @full_trace[cfg.fullname][wkl][:execution] %>
-                            <%= image_tag "#{@full_trace[cfg.fullname][wkl][:correctness]}.png" %>
+                            <%= image_tag "nok.png" if @full_trace[cfg.fullname][wkl][:correctness] != "ok" %>
                           </td>
                         <% end %>
                       <% end %>

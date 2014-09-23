@@ -25,6 +25,8 @@ gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-boot
 # The cloud_capacitor makes all the magic happen
 gem 'cloud_capacitor', git: 'git://github.com/marcelocg/cloud_capacitor.git'
 
+gem 'byebug', group: :development
+
 # Needed to run the app on Heroku
 gem 'rails_12factor', group: :production
 gem 'unicorn'

@@ -9,15 +9,15 @@ class MainController < ApplicationController
     @low_deviation    = CloudCapacitor::Settings.capacitor["low_deviation"]   
     @medium_deviation = CloudCapacitor::Settings.capacitor["medium_deviation"]
 
-    @workload_attitude      ||= :optimistic    
-    @configuration_attitude ||= :optimistic
+    @workload_approach      ||= :optimistic
+    @configuration_approach ||= :optimistic
 
   end
 
   def eval_performance
     @workloadlist = params[:workloadlist].map!{|x| x.to_i}
-    @workload_attitude = params[:workload_attitude].to_sym
-    @configuration_attitude = params[:configuration_attitude].to_sym
+    @workload_approach = params[:workload_approach].to_sym
+    @configuration_approach = params[:configuration_approach].to_sym
     
     CloudCapacitor::Settings.capacitor["sla"]              = params[:sla].to_i              if !params[:sla].empty?
     CloudCapacitor::Settings.capacitor["cpu_limit"]        = params[:cpu_limit].to_f        if !params[:cpu_limit].empty?
@@ -35,8 +35,8 @@ class MainController < ApplicationController
     capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
     capacitor.strategy = CloudCapacitor::Strategies::MCG_Strategy.new
 
-    capacitor.strategy.attitude workload: @workload_attitude, 
-                                config:   @configuration_attitude
+    capacitor.strategy.approach workload: @workload_approach,
+                                config:   @configuration_approach
 
     @candidates = capacitor.run_for(*@workloadlist)
     

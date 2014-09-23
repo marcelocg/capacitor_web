@@ -48,18 +48,18 @@
               </div>
             </div>
             <div class="col-lg-4">
-              <h4 class="list-group-item-heading">Attitude</h4>
+              <h4 class="list-group-item-heading">Approach</h4>
               <div class="form-group">
                 <div class="col-lg-6">
-                  <%= label_tag(:workload_attitude, "Workload:", class: "control-label") %>
-                  <%= select_tag(:workload_attitude, options_for_select([ :optimistic, :conservative, :pessimistic ], @workload_attitude), class: "form-control") %>
+                  <%= label_tag(:workload_approach, "Workload:", class: "control-label") %>
+                  <%= select_tag(:workload_approach, options_for_select([ :optimistic, :conservative, :pessimistic ], @workload_approach), class: "form-control") %>
                 </div>
                 <div class="col-lg-6">
-                  <%= label_tag(:configuration_attitude, "Configuration:", class: "control-label") %>
-                  <%= select_tag(:configuration_attitude, options_for_select([ "optimistic", "conservative", "pessimistic" ], @configuration_attitude.to_s), class: "form-control") %>
+                  <%= label_tag(:configuration_approach, "Configuration:", class: "control-label") %>
+                  <%= select_tag(:configuration_approach, options_for_select([ "optimistic", "conservative", "pessimistic" ], @configuration_approach.to_s), class: "form-control") %>
                 </div>
               </div>
-              <span class="help-block">Select here the attitude taken when navigating through the workloads and the deployment space.</span>
+              <span class="help-block">Select here the approach taken when navigating through the workloads and the deployment space.</span>
             </div>
             <div class="form-group">
               <div class="col-lg-4 col-lg-offset-8">

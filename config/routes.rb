@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root 'main#index'
   get  'about' => 'main#about'
+  get  'report' => 'main#report'
   post 'eval_performance' => 'main#eval_performance'
   
   # The priority is based upon order of creation: first created -> highest priority.

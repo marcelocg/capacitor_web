@@ -1,6 +1,23 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <div class="list-group">
+        <div class="list-group-item">
+          <h3 class="list-group-item-heading">Parameters:</h3>
+          <table class="table table-condensed">
+            <tr>
+              <td><h4 class="list-group-item-heading">SLA = <%= @sla %></h4></td>
+              <td><h4 class="list-group-item-heading">Workload approach = <%= @workload_approach.to_s.classify %></h4></td>
+              <td><h4 class="list-group-item-heading">Configuration approach = <%= @configuration_approach.to_s.classify %></h4></td>
+              <td><h4 class="list-group-item-heading">Graph = <%= @graph_mode == :strict ? "Capacity" : "Price" %></h4></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
       <ul id="resultsTab" class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#results" role="tab" data-toggle="tab">Results</a></li>
         <li><a href="#stats" role="tab" data-toggle="tab">Statistics</a></li>

@@ -15,31 +15,41 @@
               </div>
               <span class="help-block">The target value for the metric being assessed.</span>
             </div>
-            <div class="col-lg-4">
-              <h4 class="list-group-item-heading">Performance</h4>
+            <div class="col-lg-3">
+              <h4 class="list-group-item-heading">Deployment Space Graph</h4>
               <div class="form-group">
-                <div class="col-lg-6">
-                  <%= label_tag(:cpu_limit, "Max. CPU: (%)") %>
-                  <%= text_field_tag(:cpu_limit, @cpu_limit, class: "form-control", placeholder: "75 (%)") %>
-                </div>
-                <div class="col-lg-6">
-                  <%= label_tag(:mem_limit, "Max. Memory: (%)") %>
-                  <%= text_field_tag(:mem_limit, @mem_limit, class: "form-control", placeholder: "80 (%)") %>
+                <div class="col-lg-12">
+                  <%= label_tag(:graph_mode, "Traversal Mode:", class: "control-label") %>
+                  <%= select_tag(:graph_mode, options_for_select([ :capacity, :cost ], @graph_mode), class: "form-control") %>
                 </div>
               </div>
-              <span class="help-block">Acceptable usage for CPU and Memory.</span>
-              <div class="form-group">
-                <div class="col-lg-6">
-                  <%= label_tag(:low_deviation, "Low Deviation: (%)") %>
-                  <%= text_field_tag(:low_deviation, @low_deviation, class: "form-control", placeholder: "75 (%)") %>
-                </div>
-                <div class="col-lg-6">
-                  <%= label_tag(:medium_deviation, "Med. Deviation: (%)") %>
-                  <%= text_field_tag(:medium_deviation, @medium_deviation, class: "form-control", placeholder: "80 (%)") %>
-                </div>
-              </div>
-              <span class="help-block">Response times distance to SLA must fall below (+/-) Low Deviation. The further from it, the bigger the steps the Capacitor moves. Medium Deviation is an intermediate value. Above it, you can expect large hops in the search for Configurations.</span>
+              <span class="help-block">Select how the deployment space will be represented: by capacity levels or by configuration prices.</span>
             </div>
+            <!--<div class="col-lg-4">-->
+              <!--<h4 class="list-group-item-heading">Performance</h4>-->
+              <!--<div class="form-group">-->
+                <!--<div class="col-lg-6">-->
+                  <!--<%= label_tag(:cpu_limit, "Max. CPU: (%)") %>-->
+                  <!--<%= text_field_tag(:cpu_limit, @cpu_limit, class: "form-control", placeholder: "75 (%)") %>-->
+                <!--</div>-->
+                <!--<div class="col-lg-6">-->
+                  <!--<%= label_tag(:mem_limit, "Max. Memory: (%)") %>-->
+                  <!--<%= text_field_tag(:mem_limit, @mem_limit, class: "form-control", placeholder: "80 (%)") %>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<span class="help-block">Acceptable usage for CPU and Memory.</span>-->
+              <!--<div class="form-group">-->
+                <!--<div class="col-lg-6">-->
+                  <!--<%= label_tag(:low_deviation, "Low Deviation: (%)") %>-->
+                  <!--<%= text_field_tag(:low_deviation, @low_deviation, class: "form-control", placeholder: "75 (%)") %>-->
+                <!--</div>-->
+                <!--<div class="col-lg-6">-->
+                  <!--<%= label_tag(:medium_deviation, "Med. Deviation: (%)") %>-->
+                  <!--<%= text_field_tag(:medium_deviation, @medium_deviation, class: "form-control", placeholder: "80 (%)") %>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<span class="help-block">Response times distance to SLA must fall below (+/-) Low Deviation. The further from it, the bigger the steps the Capacitor moves. Medium Deviation is an intermediate value. Above it, you can expect large hops in the search for Configurations.</span>-->
+            <!--</div>-->
             <div class="col-lg-2">
               <div class="form-group">
                 <h4 class="list-group-item-heading">Workloads</h4>

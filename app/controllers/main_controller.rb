@@ -20,18 +20,30 @@ class MainController < ApplicationController
     @configuration_approach = params[:configuration_approach].to_sym
     
     CloudCapacitor::Settings.capacitor["sla"]              = params[:sla].to_i              if !params[:sla].empty?
-    CloudCapacitor::Settings.capacitor["cpu_limit"]        = params[:cpu_limit].to_f        if !params[:cpu_limit].empty?
-    CloudCapacitor::Settings.capacitor["mem_limit"]        = params[:mem_limit].to_f        if !params[:mem_limit].empty?
-    CloudCapacitor::Settings.capacitor["low_deviation"]    = params[:low_deviation].to_f    if !params[:low_deviation].empty?
-    CloudCapacitor::Settings.capacitor["medium_deviation"] = params[:medium_deviation].to_f if !params[:medium_deviation].empty?
+    # CloudCapacitor::Settings.capacitor["cpu_limit"]        = params[:cpu_limit].to_f        if !params[:cpu_limit].empty?
+    # CloudCapacitor::Settings.capacitor["mem_limit"]        = params[:mem_limit].to_f        if !params[:mem_limit].empty?
+    # CloudCapacitor::Settings.capacitor["low_deviation"]    = params[:low_deviation].to_f    if !params[:low_deviation].empty?
+    # CloudCapacitor::Settings.capacitor["medium_deviation"] = params[:medium_deviation].to_f if !params[:medium_deviation].empty?
 
     @sla              = CloudCapacitor::Settings.capacitor.sla
-    @cpu_limit        = CloudCapacitor::Settings.capacitor.cpu_limit
-    @mem_limit        = CloudCapacitor::Settings.capacitor.mem_limit
-    @low_deviation    = CloudCapacitor::Settings.capacitor.low_deviation
-    @medium_deviation = CloudCapacitor::Settings.capacitor.medium_deviation
 
-    capacitor = CloudCapacitor::Capacitor.new
+    case params[:graph_mode].to_sym
+      when :capacity
+        @graph_mode = :strict
+      when :cost
+        @graph_mode = :price
+      else
+        @graph_mode = :strict
+    end
+
+    # @cpu_limit        = CloudCapacitor::Settings.capacitor.cpu_limit
+    # @mem_limit        = CloudCapacitor::Settings.capacitor.mem_limit
+    # @low_deviation    = CloudCapacitor::Settings.capacitor.low_deviation
+    # @medium_deviation = CloudCapacitor::Settings.capacitor.medium_deviation
+
+    puts @graph_mode.class
+
+    capacitor = CloudCapacitor::Capacitor.new @graph_mode
     capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
     capacitor.strategy = CloudCapacitor::Strategies::MCG_Strategy.new
 

@@ -6,10 +6,25 @@
           <h3 class="list-group-item-heading">Parameters:</h3>
           <table class="table table-condensed">
             <tr>
-              <td><h4 class="list-group-item-heading">SLA = <%= @sla %></h4></td>
-              <td><h4 class="list-group-item-heading">Workload approach = <%= @workload_approach.to_s.classify %></h4></td>
-              <td><h4 class="list-group-item-heading">Configuration approach = <%= @configuration_approach.to_s.classify %></h4></td>
-              <td><h4 class="list-group-item-heading">Graph = <%= @graph_mode == :strict ? "Capacity" : "Price" %></h4></td>
+              <td><h4 class="list-group-item-heading">SLA: <%= @sla %></h4></td>
+              <td><h4 class="list-group-item-heading">Workload approach: <%= @workload_approach.to_s.classify %></h4></td>
+              <td><h4 class="list-group-item-heading">Configuration approach: <%= @configuration_approach.to_s.classify %></h4></td>
+              <td><h4 class="list-group-item-heading">Graph: <%= @graph_mode == :strict ? "Capacity" : "Price" %></h4></td>
+            </tr>
+          </table>
+          <h3 class="list-group-item-heading">Stats:</h3>
+          <table class="table table-condensed">
+            <tr>
+              <td>
+                <h4 class="list-group-item-heading">
+                  Number of real executions: <%= @executions %>
+                </h4>
+              </td>
+              <td>
+                <h4 class="list-group-item-heading">
+                  Execution total cost: <%= @cost.round(3) %>
+                </h4>
+              </td>
             </tr>
           </table>
         </div>
@@ -47,18 +62,6 @@
         </div>
         <div class="tab-pane fade in" id="stats">
           <div class="list-group">
-            <div class="list-group-item">
-              <h4 class="list-group-item-heading">
-                <div class="row">
-                  <div class="col-md-4">
-                    <p class="list-group-item-text">Number of real executions: <%= @executions %></p>
-                  </div>
-                  <div class="col-md-4">
-                    <p class="list-group-item-text">Execution total cost: <%= @cost.round(3) %></p>
-                  </div>
-                </div>
-              </h4>
-            </div>
             <div class="list-group-item">
               <h3 class="list-group-item-heading">Execution Trace</h3>
               <table class="table table-condensed table-bordered">
@@ -98,15 +101,6 @@
           <div class="list-group">
             <div class="list-group-item">
               <h3 class="list-group-item-heading">Full Execution Trace</h3>
-              <p class="list-group-item-text">
-                <table class="table table-condensed">
-                  <tr>
-                    <td>Global Precision: <%= @global_precision %></td>
-                    <td>Global Recall: <%= @global_recall %></td>
-                    <td>Global F-Measure: <%= @global_f_measure %></td>
-                  </tr>
-                </table>
-              </p>
               <table class="table table-condensed table-bordered">
                 <thead>
                   <tr>

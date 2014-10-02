@@ -74,68 +74,71 @@ class MainController < ApplicationController
   end
 
   def report
-    capacitor = CloudCapacitor::Capacitor.new
+    [:strict, :price].each do |mode|
 
-    capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
-    capacitor.strategy = CloudCapacitor::Strategies::MCG_Strategy.new
-    workloads = [100,200,300,400,500,600,700,800,900,1000]
-    approaches = [:optimistic, :pessimistic, :conservative, :random]
-    slas = (1..10).map{|i| i * 10_000}
+      mode_name = (mode == :strict) ? "capacity" : "price"
 
-    heuristic_name = { optimistic:
-                           { optimistic:   "OO",
-                             pessimistic:  "OP",
-                             conservative: "OC",
-                             random:       "OR" },
-                       pessimistic:
-                           { optimistic:   "PO",
-                             pessimistic:  "PP",
-                             conservative: "PC",
-                             random:       "PR" },
-                       conservative:
-                           { optimistic:   "CO",
-                             pessimistic:  "CP",
-                             conservative: "CC",
-                             random:       "CR" },
-                       random:
-                           { optimistic:   "RO",
-                             pessimistic:  "RP",
-                             conservative: "RC",
-                             random:       "RR" }
-    }
+      capacitor = CloudCapacitor::Capacitor.new mode
 
-    approaches.each do |wkl_approach|
-      approaches.each do |config_approach|
+      capacitor.executor = CloudCapacitor::Executors::DummyExecutor.new
+      capacitor.strategy = CloudCapacitor::Strategies::MCG_Strategy.new
+      workloads = [100,200,300,400,500,600,700,800,900,1000]
+      approaches = [:optimistic, :pessimistic, :conservative, :random]
+      slas = (1..10).map{|i| i * 10_000}
 
-        heuristic = heuristic_name[wkl_approach][config_approach]
+      heuristic_name = { optimistic:
+                             { optimistic:   "OO",
+                               pessimistic:  "OP",
+                               conservative: "OC",
+                               random:       "OR" },
+                         pessimistic:
+                             { optimistic:   "PO",
+                               pessimistic:  "PP",
+                               conservative: "PC",
+                               random:       "PR" },
+                         conservative:
+                             { optimistic:   "CO",
+                               pessimistic:  "CP",
+                               conservative: "CC",
+                               random:       "CR" },
+                         random:
+                             { optimistic:   "RO",
+                               pessimistic:  "RP",
+                               conservative: "RC",
+                               random:       "RR" }
+      }
 
-        File.open("#{heuristic}_heuristic_result.csv", "wt") do |result|
+      approaches.each do |wkl_approach|
+        approaches.each do |config_approach|
 
-          result.puts "heuristic,workload,configuration,metsla,sla,predict" #.split(",")
+          heuristic = heuristic_name[wkl_approach][config_approach]
 
-          slas.each do |sla|
-            CloudCapacitor::Settings.capacitor["sla"] = sla
+          File.open("#{heuristic}_heuristic_#{mode_name}_mode_result.csv", "wt") do |result|
 
-            capacitor.strategy.approach workload: wkl_approach, config: config_approach
+            result.puts "heuristic,workload,configuration,metsla,sla,predict" #.split(",")
 
-            puts "Running: Heuristic = #{heuristic} and SLA = #{sla}"
-            capacitor.run_for(*workloads)
-            puts "Run finished! Writing output"
+            slas.each do |sla|
+              CloudCapacitor::Settings.capacitor["sla"] = sla
 
-            full_trace = capacitor.results_trace
+              capacitor.strategy.approach workload: wkl_approach, config: config_approach
 
-            workloads.each do |w|
-              # Format: {"1.m3_medium": {100: {met_sla: false, executed: true, execution: 1}}}
-              full_trace.keys.each do |cfg|
-                exec = full_trace[cfg][w]
-                exec.nil? || exec == {} ? metsla  = nil : metsla  = exec[:met_sla]
-                exec.nil? || exec == {} ? predict = nil : predict = !exec[:executed]
-                result.puts "#{heuristic},#{w},#{cfg},#{metsla},#{sla},#{predict}" #.split(",")
+              puts "Running: Heuristic = #{heuristic} Mode = #{mode_name} and SLA = #{sla}"
+              capacitor.run_for(*workloads)
+              puts "Run finished! Writing output"
+
+              full_trace = capacitor.results_trace
+
+              workloads.each do |w|
+                # Format: {"1.m3_medium": {100: {met_sla: false, executed: true, execution: 1}}}
+                full_trace.keys.each do |cfg|
+                  exec = full_trace[cfg][w]
+                  exec.nil? || exec == {} ? metsla  = nil : metsla  = exec[:met_sla]
+                  exec.nil? || exec == {} ? predict = nil : predict = !exec[:executed]
+                  result.puts "#{heuristic},#{w},#{cfg},#{metsla},#{sla},#{predict}" #.split(",")
+                end
               end
             end
-
           end
-
         end
       end
     end

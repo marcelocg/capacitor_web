@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/marcelocg/cloud_capacitor.git
-  revision: a5cb6f5a85dcc93a38dcb35f50ea0db2dec534b2
+  revision: 5e3fbc4972831014f6b709f76dbdbade0f1c5189
   specs:
     cloud_capacitor (0.0.1)
       plexus
@@ -75,7 +75,7 @@ GEM
     libv8 (3.16.14.7)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
-    mime-types (2.3)
+    mime-types (2.4.1)
     minitest (5.4.2)
     multi_json (1.10.1)
     pg (0.17.1)
